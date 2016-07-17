@@ -1,0 +1,58 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$script = <<SCRIPT
+# Update apt and get dependencies
+#sudo yum -y update
+sudo yum install -y unzip curl wget vim-enhanced golang git make docker
+
+# Install docker
+systemctl start docker
+systemctl enable docker
+
+# Download and install nomad
+export PATH=$PATH:$GOPATH/bin
+export GOPATH=$HOME/work
+
+# Set env values for vagrant and root users
+echo "export PATH=$PATH:$GOPATH/bin" >> $HOME/.bash_profile
+echo "export GOPATH=$HOME/work" >> $HOME/.bash_profile
+sudo sh -c "echo 'export PATH=$PATH:$GOPATH/bin' >> /root/.bash_profile"
+sudo sh -c "echo 'export GOPATH=$HOME/work' >> /root/.bash_profile"
+
+# Build and install nomad
+mkdir -p $GOPATH/src/github.com/hashicorp && \
+cd $GOPATH/src/github.com/hashicorp && \
+git clone https://github.com/hashicorp/nomad.git && \
+cd nomad
+make bootstrap
+PATH=$PATH:$GOPATH/bin go install -tags=unsafe github.com/ugorji/go/codec 
+PATH=$PATH:$GOPATH/bin make dev
+sudo sh -c "PATH=$PATH:$GOPATH/bin make install"
+
+# end
+SCRIPT
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "fedora/24-cloud-base"
+  config.vm.hostname = "nomad"
+  config.vm.provision "shell", inline: $script, privileged: false
+  config.vm.provision "docker" # Just install it
+
+  # Increase memory for Parallels Desktop
+  config.vm.provider "parallels" do |p, o|
+    p.memory = "4096"
+  end
+
+  # Increase memory for Virtualbox
+  config.vm.provider "virtualbox" do |vb|
+        vb.memory = "4096"
+  end
+
+  # Increase memory for VMware
+  ["vmware_fusion", "vmware_workstation"].each do |p|
+    config.vm.provider p do |v|
+      v.vmx["memsize"] = "4096"
+    end
+  end
+end
