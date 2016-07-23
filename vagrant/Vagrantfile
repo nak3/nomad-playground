@@ -17,6 +17,7 @@ export GOPATH=$HOME/work
 # Set env values for vagrant and root users
 echo "export PATH=$PATH:$GOPATH/bin" >> $HOME/.bash_profile
 echo "export GOPATH=$HOME/work" >> $HOME/.bash_profile
+echo "export NOMAD_SRC=$HOME/work/src/github.com/hashicorp/nomad" >> $HOME/.bash_profile
 sudo sh -c "echo 'export PATH=$PATH:$GOPATH/bin' >> /root/.bash_profile"
 sudo sh -c "echo 'export GOPATH=$HOME/work' >> /root/.bash_profile"
 
