@@ -1,0 +1,99 @@
+{
+	"acVersion": "1.11.0+git-dirty",
+	"acKind": "PodManifest",
+	"apps": [
+		{
+			"name": "hello-openshift",
+			"image": {
+				"name": "registry-1.docker.io/openshift/hello-openshift",
+				"id": "sha512-9075541cdf2904944296b0cb234c265c0793717bca89ea932a0b8f23f393653c",
+				"labels": [
+					{
+						"name": "version",
+						"value": "latest"
+					},
+					{
+						"name": "os",
+						"value": "linux"
+					},
+					{
+						"name": "arch",
+						"value": "amd64"
+					}
+				]
+			},
+			"app": {
+				"exec": [
+					"/hello-openshift"
+				],
+				"user": "0",
+				"group": "0",
+				"environment": [
+					{
+						"name": "PATH",
+						"value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+					}
+				],
+				"ports": [
+					{
+						"name": "8080-tcp",
+						"protocol": "tcp",
+						"port": 8080,
+						"count": 1,
+						"socketActivated": false
+					},
+					{
+						"name": "8888-tcp",
+						"protocol": "tcp",
+						"port": 8888,
+						"count": 1,
+						"socketActivated": false
+					}
+				]
+			},
+			"annotations": [
+				{
+					"name": "created",
+					"value": "2016-08-17T09:06:36Z"
+				},
+				{
+					"name": "appc.io/docker/registryurl",
+					"value": "registry-1.docker.io"
+				},
+				{
+					"name": "appc.io/docker/repository",
+					"value": "openshift/hello-openshift"
+				},
+				{
+					"name": "appc.io/docker/imageid",
+					"value": "69c18a7ee877dbd3a7fbd51e32de5019bf63a408305df4a84f33c3a61db8d8db"
+				},
+				{
+					"name": "appc.io/docker/parentimageid",
+					"value": "16e3b9315fe8615e597292256200f217d2caa506fd0ee3f00e1a861a2cdf71e7"
+				},
+				{
+					"name": "appc.io/docker/entrypoint",
+					"value": "[\"/hello-openshift\"]"
+				},
+				{
+					"name": "appc.io/docker/tag",
+					"value": "latest"
+				}
+			]
+		}
+	],
+	"volumes": null,
+	"isolators": null,
+	"annotations": null,
+	"ports": [
+		{
+			"name": "8080-tcp",
+			"hostPort": 12342
+		},
+		{
+			"name": "8888-tcp",
+			"hostPort": 12333
+		}
+	]
+}

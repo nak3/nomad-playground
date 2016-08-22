@@ -1,0 +1,102 @@
+{
+	"acVersion": "1.11.0+git-dirty",
+	"acKind": "PodManifest",
+	"apps": [
+		{
+			"name": "etcd",
+			"image": {
+				"name": "coreos.com/etcd",
+				"id": "sha512-1eba37d9b344b33d272181e176da111ef2fdd4958b88ba4071e56db9ac07cf62",
+				"labels": [
+					{
+						"name": "os",
+						"value": "linux"
+					},
+					{
+						"name": "arch",
+						"value": "amd64"
+					},
+					{
+						"name": "version",
+						"value": "v2.0.4"
+					}
+				]
+			},
+			"app": {
+				"exec": [
+					"/etcd"
+				],
+				"user": "0",
+				"group": "0",
+				"environment": [
+					{
+						"name": "NOMAD_ALLOC_INDEX",
+						"value": "0"
+					},
+					{
+						"name": "NOMAD_TASK_NAME",
+						"value": "etcd"
+					},
+					{
+						"name": "NOMAD_ALLOC_DIR",
+						"value": "/tmp/NomadClient210417860/4cd0c787-9a99-11d0-c9cc-674c92e686e8/alloc"
+					},
+					{
+						"name": "NOMAD_TASK_DIR",
+						"value": "/tmp/NomadClient210417860/4cd0c787-9a99-11d0-c9cc-674c92e686e8/etcd/local"
+					},
+					{
+						"name": "NOMAD_MEMORY_LIMIT",
+						"value": "256"
+					},
+					{
+						"name": "NOMAD_CPU_LIMIT",
+						"value": "500"
+					},
+					{
+						"name": "NOMAD_ALLOC_ID",
+						"value": "4cd0c787-9a99-11d0-c9cc-674c92e686e8"
+					},
+					{
+						"name": "NOMAD_ALLOC_NAME",
+						"value": "example.rkt-test[0]"
+					}
+				],
+				"isolators": [
+					{
+						"name": "resource/memory",
+						"value": {
+							"default": false,
+							"request": "256M",
+							"limit": "256M"
+						}
+					},
+					{
+						"name": "resource/cpu",
+						"value": {
+							"default": false,
+							"request": "500m",
+							"limit": "500m"
+						}
+					}
+				]
+			},
+			"mounts": [
+				{
+					"volume": "etcd",
+					"path": "/tmp/NomadClient210417860/4cd0c787-9a99-11d0-c9cc-674c92e686e8/alloc"
+				}
+			]
+		}
+	],
+	"volumes": [
+		{
+			"name": "etcd",
+			"kind": "host",
+			"source": "/tmp/NomadClient210417860/4cd0c787-9a99-11d0-c9cc-674c92e686e8/alloc"
+		}
+	],
+	"isolators": null,
+	"annotations": null,
+	"ports": []
+}
