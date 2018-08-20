@@ -1,3 +1,12 @@
+Prep
+===
+
+NOTE: server2.hcl uses `127.0.1.1`
+
+~~~
+ip addr add 127.0.1.1/8 dev lo
+~~~
+
 Usage
 ===
 
