@@ -4,11 +4,11 @@
 $script = <<SCRIPT
 # Update apt and get dependencies
 #sudo yum -y update
-sudo yum install -y unzip curl wget vim-enhanced golang git make docker java rkt systemd-container
+sudo yum install -y unzip curl wget vim-enhanced golang git make docker java rkt systemd-container bash-completion
 
 # Install docker
-systemctl start docker
-systemctl enable docker
+sudo systemctl start docker
+sudo systemctl enable docker
 
 # Download and install nomad
 export PATH=$PATH:$GOPATH/bin
@@ -26,16 +26,14 @@ mkdir -p $GOPATH/src/github.com/hashicorp && \
 cd $GOPATH/src/github.com/hashicorp && \
 git clone https://github.com/hashicorp/nomad.git && \
 cd nomad
-make bootstrap
-PATH=$PATH:$GOPATH/bin go install -tags=unsafe github.com/ugorji/go/codec 
+PATH=$PATH:$GOPATH/bin make bootstrap
 PATH=$PATH:$GOPATH/bin make dev
-sudo sh -c "PATH=$PATH:$GOPATH/bin make install"
-
+PATH=$PATH:$GOPATH/bin nomad -autocomplete-install
 # end
 SCRIPT
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "fedora/24-cloud-base"
+  config.vm.box = "fedora/28-cloud-base"
   config.vm.hostname = "nomad"
   config.vm.provision "shell", inline: $script, privileged: false
   config.vm.provision "docker" # Just install it
